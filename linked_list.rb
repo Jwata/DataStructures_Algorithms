@@ -15,17 +15,23 @@ class LinkedList
   def delete(value)
     current = head
     previous = nil
+    found = false
 
-    while current != nil
+    while current and not found
       if current.value == value
-        if previous
-          previous.next = current.next
-        else
-          self.head = current.next
-        end
+        found = true
+      else
+        previous = current
+        current = current.next
       end
-      previous = current
-      current = current.next
+    end
+
+    if found
+      if previous
+        previous.next = current.next
+      else
+        self.head = current.next
+      end
     end
   end
 
