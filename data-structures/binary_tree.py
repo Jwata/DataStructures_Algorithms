@@ -1,3 +1,8 @@
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+        self.size = 0
+
 class BinaryTreeNode:
     def __init__(self, value):
         self.value = value
