@@ -6,3 +6,6 @@
 
 ## GeeksforGeeeks
 [https://www.geeksforgeeks.org/]()
+
+## Data Structures & Algorithms in Python (Udacity)
+[https://www.udacity.com/course/data-structures-and-algorithms-in-python--ud513]()
