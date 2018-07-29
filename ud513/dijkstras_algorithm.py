@@ -15,6 +15,7 @@ class Graph:
     # dijkstra algorithm
     def find_shortest_path(self, from_node, to_node):
         dist_map = {from_node: 0}
+        pred_map = {}
         finalized_nodes = set()
         queue = [(0, from_node)]
 
@@ -29,11 +30,23 @@ class Graph:
                 dist_to_adj_from_source = dist_from_source + dist_to_adj
                 if not adj_node in dist_map or dist_map[adj_node] > dist_to_adj_from_source:
                     dist_map[adj_node] = dist_to_adj_from_source
+                    pred_map[adj_node] = node
                     heappush(queue, (dist_to_adj_from_source, adj_node))
             # print('Queue', queue)
 
         shortest_dist = dist_map[to_node]
-        return shortest_dist
+
+        node = to_node
+        shortest_path = [to_node]
+        while True:
+            pred = pred_map[node]
+            shortest_path = [pred] + shortest_path
+            if pred == from_node:
+                break
+            else:
+                node = pred
+
+        return shortest_dist, shortest_path
 
 
 g = Graph()
@@ -54,6 +67,6 @@ g.insert_edge('c', 't', 5)
 g.insert_edge('i', 'y', 4)
 g.insert_edge('t', 'y', 5)
 
-shortest_dist = g.find_shortest_path('u', 'y')
-print('Shortest distance', shortest_dist)
-#print('Shortest paths', paths)
+dist, path = g.find_shortest_path('u', 'y')
+print('Shortest distance', dist)
+print('Shortest paths', path)
