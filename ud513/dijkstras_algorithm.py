@@ -21,7 +21,10 @@ class Graph:
 
         while not to_node in finalized_nodes:
             dist_from_source, node = heappop(queue)
-            # print('Current {}, Distance from source {}'.format(node, dist_from_source))
+            if dist_map[node] < dist_from_source:
+                continue
+
+            print('Current {}, Distance from source {}'.format(node, dist_from_source))
             finalized_nodes.add(node)
 
             for adj_node, dist_to_adj in self._edges[node].items():
@@ -32,7 +35,7 @@ class Graph:
                     dist_map[adj_node] = dist_to_adj_from_source
                     pred_map[adj_node] = node
                     heappush(queue, (dist_to_adj_from_source, adj_node))
-            # print('Queue', queue)
+            print('Queue', queue)
 
         shortest_dist = dist_map[to_node]
 
