@@ -1,19 +1,27 @@
 import unittest
+import copy
 
 
 def max_duffel_bag_value(cake_tuples, capacity):
-    M = [0] * (capacity + 1)
+    M = [(0, [0]*len(cake_tuples))] * (capacity + 1)
 
-    for w, v in cake_tuples:
+    for i in range(len(cake_tuples)):
+        w, v = cake_tuples[i]
         if w == 0 and v > 0:
             return float('inf')
         for c in range(capacity+1):
             if c < w:
                 continue
-            max_cand = M[c-w] + v
-            M[c] = max([M[c], max_cand])
+            max_base, counts = copy.deepcopy(M[c-w])
+            max_cand = max_base + v
 
-    return M[capacity]
+            if max_cand > M[c][0]:
+                counts[i] += 1
+                M[c] = (max_cand, counts)
+
+    max_value, counts = M[capacity]
+    print(counts)
+    return max_value
 
 
 class Test(unittest.TestCase):
