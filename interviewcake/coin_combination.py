@@ -26,3 +26,8 @@ amount = 4
 denoms = [1, 2, 3]
 comb = coin_combination(amount, denoms)
 print(comb)
+
+amount = 5
+denoms = [3, 7]
+comb = coin_combination(amount, denoms)
+print(comb)
