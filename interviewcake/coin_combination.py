@@ -1,29 +1,22 @@
 def coin_combination(amount, denoms):
-    default_comb = (0, 0, 0)
-    comb_memo = {}
+    comb_memo = [0]*(amount+1)
+    comb_memo[0] = 1
 
-    for a in range(amount+1):
-        combs = set()
-        if a == 0:
-            combs.add(default_comb)
-
-        for denom in denoms:
-            if denom > a:
+    for denom in denoms:
+        for a, count in enumerate(comb_memo):
+            if a < denom:
                 continue
-            if not (a-denom) in comb_memo:
-                base_combs = set([default_comb])
-            else:
-                base_combs = comb_memo[a-denom]
-            for base_comb in base_combs:
-                lst = list(base_comb)
-                lst[denom-1] += 1
-                combs.add(tuple(lst))
-        comb_memo[a] = combs
+            comb_memo[a] = comb_memo[a] + comb_memo[a-denom]
 
-    return comb_memo[amount]
+    return comb_memo
 
 amount = 4
 denoms = [1, 2, 3]
+comb = coin_combination(amount, denoms)
+print(comb)
+
+amount = 5
+denoms = [1, 3, 5]
 comb = coin_combination(amount, denoms)
 print(comb)
 
