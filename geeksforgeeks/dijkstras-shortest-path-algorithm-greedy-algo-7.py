@@ -24,6 +24,9 @@ class Graph:
             nodes.remove(node)
             spt[node] = prev_node
 
+            if node == end:
+                break
+
             # update distances of adjacent nodes
             for to_node, weight in self.edges[node]:
                 if d + weight < distances[to_node][0]:
@@ -70,5 +73,4 @@ g.add_edge(5, 6, 2)
 g.add_edge(6, 7, 1)
 g.add_edge(6, 8, 6)
 g.add_edge(7, 8, 7)
-
 print(g.dijkstra(0, 4))
