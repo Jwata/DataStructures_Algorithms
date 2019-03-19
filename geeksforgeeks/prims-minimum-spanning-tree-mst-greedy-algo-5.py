@@ -1,4 +1,4 @@
-import heapq
+from priority_queue import PriorityQueue
 
 class Graph:
     def __init__(self, V):
@@ -12,22 +12,21 @@ class Graph:
     def find_mst(self):
         mst_edges = [] # (from, to, weight)
         mst_set = set()
-        buf = [] # keep edges to explore
+        queue = PriorityQueue() # keep edges to explore
 
-        def add_edges(i):
+        def add_edges(i): # O(E)
             for j, w in enumerate(self.edges[i]):
                 if w is not None:
-                    edge = (w, i, j)
-                    heapq.heappush(buf, edge)
+                    queue.push(w, (i, j))
 
-        def pop_edge():
-            return heapq.heappop(buf)
+        def pop_edge(): # O(1)
+            return queue.pop()
 
         # init with edges of node 0
         add_edges(0)
 
-        while len(buf) > 0:
-            w, n1, n2 = pop_edge()
+        while not queue.empty():
+            w, (n1, n2) = pop_edge() # O(1)
 
             # will make cycle?
             if n1 in mst_set and n2 in mst_set:

@@ -50,14 +50,15 @@ class PriorityQueue:
         return root
 
 
-h = PriorityQueue()
-h.push(4, "tokyo")
-h.push(8, "nagoya")
-h.push(11, "osaka")
-h.push(7, "sapporo")
-h.push(3, "fukuoka")
-h.push(9, "naha")
-print(h.arr)
+if __name__ == '__main__':
+    h = PriorityQueue()
+    h.push(4, "tokyo")
+    h.push(8, "nagoya")
+    h.push(11, "osaka")
+    h.push(7, "sapporo")
+    h.push(3, "fukuoka")
+    h.push(9, "naha")
+    print(h.arr)
 
-while not h.empty():
-    print(h.pop(), h.arr)
+    while not h.empty():
+        print(h.pop(), h.arr)
