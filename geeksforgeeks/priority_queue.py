@@ -1,9 +1,17 @@
 class PriorityQueue:
     def __init__(self):
         self.arr = []
+        self.pos = {}
 
     def swap(self, i, j):
-        self.arr[i], self.arr[j] = self.arr[j], self.arr[i]
+        pi, qi = self.arr[i]
+        pj, qj = self.arr[j]
+
+        self.arr[i] = (pj, qj)
+        self.arr[j] = (pi, qi)
+
+        self.pos[qi] = j
+        self.pos[qj] = i
 
     def size(self):
         return len(self.arr)
@@ -18,6 +26,8 @@ class PriorityQueue:
         self.arr.append((p, q))
 
         i = self.size() - 1
+        self.pos[q] = i
+
         while i > 0:
             j = (i-1)//2
             if self.arr[j][0] < self.arr[i][0]:
@@ -28,10 +38,13 @@ class PriorityQueue:
 
     def pop(self):
         if self.size() == 1:
+            self.pos.pop(self.arr[0][1])
             return self.arr.pop()
 
         root = self.arr[0] # raise error if heap is empty
+        self.pos.pop(root[1])
         self.arr[0] = self.arr.pop()
+        self.pos[self.arr[0][1]] = 0
 
         i = 0
         while i < self.size():
@@ -49,6 +62,13 @@ class PriorityQueue:
 
         return root
 
+    def has(self, q):
+        return q in self.pos
+
+    def priority(self, q):
+        if q in self.pos:
+            self.pos[q]
+
 
 if __name__ == '__main__':
     h = PriorityQueue()
@@ -58,7 +78,14 @@ if __name__ == '__main__':
     h.push(7, "sapporo")
     h.push(3, "fukuoka")
     h.push(9, "naha")
+    print("Pushed result")
     print(h.arr)
+    print(h.pos)
+
+    import ipdb; ipdb.set_trace()
 
     while not h.empty():
-        print(h.pop(), h.arr)
+        print("Pop")
+        print(h.pop())
+        print(h.arr)
+        print(h.pos)
