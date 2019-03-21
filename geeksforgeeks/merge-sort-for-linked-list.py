@@ -51,15 +51,20 @@ class LinkedList:
 
         return arr
 
+# T(n) = 2 * T(n/2) + n
+# O(n) = nlog(n)
 def merge_sort(a):
     if not a.head or not a.head.next:
         return a
 
     h1, h2 = a.divide_half()
-    sorted1 = merge_sort(h1)
-    sorted2 = merge_sort(h2)
+    sorted1 = merge_sort(h1) # S(n/2)
+    sorted2 = merge_sort(h2) # S(n/2)
 
-    return merge_sorted(sorted1, sorted2)
+    s = LinkedList()
+    s.head = merge_sorted_recur(sorted1.head, sorted2.head) # O(n)
+
+    return s
 
 def merge_sorted(a, b):
     head = None
@@ -84,6 +89,21 @@ def merge_sorted(a, b):
 
     s = LinkedList()
     s.head = head
+    return s
+
+def merge_sorted_recur(a, b):
+    if not a:
+        return b
+    if not b:
+        return a
+
+    if a.value < b.value:
+        s = a
+        s.next = merge_sorted_recur(a.next, b)
+    else:
+        s = b
+        s.next = merge_sorted_recur(a, b.next)
+
     return s
 
 
