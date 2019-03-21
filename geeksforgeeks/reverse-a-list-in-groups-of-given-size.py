@@ -6,14 +6,12 @@ class LinkedList:
 
     def __init__(self):
         self.head = None
-        self.tail = None
     
-    def add_left(self, value):
+    def add(self, value):
         node = self.Node(value)
 
         if self.head is None:
             self.head = node
-            self.tail = node
             return
 
         temp = self.head
@@ -21,43 +19,44 @@ class LinkedList:
         self.head.next = temp
         return
 
-    def add_right(self, value):
-        node = self.Node(value)
+    # def reverse(self):
+    #     cur = self.head
+    #     prev_node = None
 
-        if self.head is None:
-            self.head = node
-            self.tail = node
-            return
+    #     while cur is not None:
+    #         next_node = cur.next
+    #         cur.next = prev_node
 
-        self.tail.next = node
-        self.tail = self.tail.next
-        return
+    #         prev_node = cur
+    #         cur = next_node
 
-    def append_linked_list(self, ll):
-        if self.head is None:
-            self.head = ll.head
-            self.tail = ll.tail
-        else:
-            self.tail.next = ll.head
-            self.tail = ll.tail
+    #     self.head, self.tail = self.tail, self.head
 
     def reverse_every(self, k):
         cur = self.head
-
+        head = cur
+        tail = None
         cnt = 0
-        rev = LinkedList()
-        buf = LinkedList()
+        prev= 0
 
         while cur is not None:
-            buf.add_left(cur.value)
-            cnt += 1
-            cur = cur.next
-            if cnt == k or cur is None:
-                rev.append_linked_list(buf)
-                buf = LinkedList()
-                cnt = 0
+            next_node = cur.next
+            cur.next = prev
 
-        return rev
+            prev = cur
+            cur = next_node
+
+            cnt += 1
+            if cnt == k or cur is None:
+                if tail is not None:
+                    tail.next = prev
+                else:
+                    self.head = prev
+
+                tail = head
+                head = cur
+                prev=None
+                cnt = 0
 
     def to_array(self):
         arr = []
@@ -72,13 +71,16 @@ class LinkedList:
 
 a = LinkedList()
 cur = a.head
-for i in range(1, 9):
-    a.add_right(i)
+for i in range(8, 0, -1):
+    a.add(i)
 print(a.to_array())
 
 
-r = a.reverse_every(3)
-print(r.to_array()) # 3->2->1->6->5->4->8->7
+# a.reverse()
+# print(a.to_array())
 
-r = a.reverse_every(5)
-print(r.to_array()) # 5->4->3->2->1->8->7->6
+# a.reverse_every(3)
+# print(a.to_array()) # 3->2->1->6->5->4->8->7
+
+a.reverse_every(5)
+print(a.to_array()) # 5->4->3->2->1->8->7->6
