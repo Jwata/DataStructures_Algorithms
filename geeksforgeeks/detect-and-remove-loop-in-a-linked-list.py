@@ -2,7 +2,6 @@ class LinkedList:
     class Node:
         def __init__(self, value):
             self.value = value
-            self.visited = False
             self.next = None
     
     def __init__(self):
@@ -19,21 +18,16 @@ class LinkedList:
 
     def detect_loop(self):
         cur = self.head
+        visited = set()
 
         while cur:
-            cur.visited = True
-            if cur.next and cur.next.visited:
+            visited.add(id(cur))
+            if cur.next and id(cur.next) in visited:
                 cur.next = None
                 return True
             cur = cur.next
 
         return False
-
-    def reset_visited(self):
-        cur = self.head
-        while cur:
-            cur.visited = False
-            cur = cur.next
 
     def to_array(self):
         arr = []
@@ -55,7 +49,6 @@ a.push(1)
 
 print(a.detect_loop()) # False
 print(a.to_array()) # [1,2,3,4,5]
-a.reset_visited()
 
 # make loop
 tail = a.head.next.next.next.next
