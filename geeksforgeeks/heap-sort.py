@@ -28,3 +28,7 @@ def heap_sort(arr):
 arr = [4, 10, 3, 5, 15]
 heap_sort(arr)
 print(arr)
+
+# heapify: O(log n)
+# build heap: O(n)
+# heap sort: Σlog k <= nlog n = O(n log n)
