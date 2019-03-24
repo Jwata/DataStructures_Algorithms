@@ -1,4 +1,4 @@
-from heapq import heappush, heappop
+from heapq import heappush, heappop, heapify
 
 def find_largest_k(arr, k):
     n = len(arr)
@@ -17,6 +17,20 @@ def find_largest_k(arr, k):
 
     return largest_k
 
+def find_largest_k_with_maxheap(arr, k):
+    n = len(arr)
+    for i in range(n):
+        arr[i] = -1 * arr[i]
+
+    heapify(arr)
+
+    largest_k = []
+    for i in range(k):
+        largest_k.append(-1 * heappop(arr))
+
+    return largest_k
+
 arr = [1, 23, 12, 9, 30, 2, 50]
 k = 3
 print(find_largest_k(arr, k))
+print(find_largest_k_with_maxheap(arr, k))
