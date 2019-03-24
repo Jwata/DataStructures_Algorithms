@@ -29,9 +29,9 @@ ts.push1(1)
 ts.push1(2)
 ts.push2(3)
 ts.push2(4)
-print(ts.pop1()) # 1
-print(ts.pop2()) # 4
 print(ts.pop1()) # 2
+print(ts.pop2()) # 4
+print(ts.pop1()) # 1
 print(ts.pop1()) # None
 print(ts.pop2()) # 3
 print(ts.pop2()) # None
