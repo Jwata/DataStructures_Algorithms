@@ -1,41 +1,39 @@
+from copy import copy
+
 class Node:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
 
-def construct_tree(inorder_seq, preorder_seq):
-    if len(inorder_seq) == 0:
+# Constructing map O(n)
+# Traverse O(n)
+def construct_tree_wapper(inorder_seq, preorder_seq):
+    inorder_map = {}
+    for i, v in enumerate(inorder_seq):
+        inorder_map[v] = i
+
+    n = len(inorder_seq)
+
+    return construct_tree(inorder_seq, preorder_seq, inorder_map, 0, n-1)
+
+def construct_tree(
+        inorder_seq, preorder_seq, inorder_map, inorder_from, inorder_to):
+
+    if inorder_from > inorder_to:
         return None
 
     v = preorder_seq.pop(0)
     root = Node(v)
 
-    is_left = True
-    left_inorder_seq = []
-    right_inorder_seq = []
-    for v_in in inorder_seq:
-        if v == v_in:
-            is_left = False
-        else:
-            if is_left:
-                left_inorder_seq.append(v_in)
-            else:
-                right_inorder_seq.append(v_in)
+    root_pos = inorder_map[v]
 
-    root.left = construct_tree(left_inorder_seq, preorder_seq)
-    root.right = construct_tree(right_inorder_seq, preorder_seq)
+    root.left = construct_tree(
+        inorder_seq, preorder_seq, inorder_map, inorder_from, root_pos - 1)
+    root.right = construct_tree(
+        inorder_seq, preorder_seq, inorder_map, root_pos + 1, inorder_to)
+
     return root
-
-# def bfs_print(root):
-#     q = [root]
-#     while len(q) > 0:
-#         cur = q.pop(0)
-#         print(cur.value)
-#         if cur.left:
-#             q.append(cur.left)
-#         if cur.right:
-#             q.append(cur.right)
 
 def inorder_print(root):
     if root is None:
@@ -54,8 +52,7 @@ def preorder_print(root):
 inorder_seq = ['D', 'B', 'E', 'A', 'F', 'C']
 preorder_seq = ['A', 'B', 'D', 'E', 'C', 'F']
 
-from copy import copy
-root = construct_tree(inorder_seq, copy(preorder_seq))
+root = construct_tree_wapper(inorder_seq, copy(preorder_seq))
 print("inorder")
 print("expected", inorder_seq)
 inorder_print(root)
