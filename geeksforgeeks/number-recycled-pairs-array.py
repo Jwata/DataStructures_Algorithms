@@ -28,3 +28,6 @@ def rotate(x):
 arr = [32, 42, 13, 23, 9, 5, 31]
 print(find_recycled_pairs(arr))
 
+arr = [1212, 2121]
+print(find_recycled_pairs(arr))
+
