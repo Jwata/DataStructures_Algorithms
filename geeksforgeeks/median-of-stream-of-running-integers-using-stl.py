@@ -5,33 +5,47 @@ class Consumer:
         self.high = [] # min heap
         self.low = [] # max heap
 
+    # def add(self, value):
+    #     n_high = len(self.high)
+    #     n_low = len(self.low)
+
+    #     to_high = None
+
+    #     if n_high == 0 and n_low == 0:
+    #         to_high = True
+    #     elif n_high < n_low:
+    #         if value <= self.low[0]:
+    #             tmp = self.pop_low()
+    #             self.add_high(tmp)
+    #         else:
+    #             to_high = True
+    #     elif n_low < n_high:
+    #         if value >= self.high[0]:
+    #             tmp = self.pop_high()
+    #             self.add_low(tmp)
+    #             to_high = True
+    #         else:
+    #             if value > self.low[0]:
+    #                 to_high = True
+
+    #     if to_high:
+    #         self.add_high(value)
+    #     else:
+    #         self.add_low(value)
     def add(self, value):
-        n_high = len(self.high)
-        n_low = len(self.low)
-
-        to_high = None
-
-        if n_high == 0 and n_low == 0:
-            to_high = True
-        elif n_high < n_low:
-            if value <= self.low[0]:
-                tmp = self.pop_low()
-                self.add_high(tmp)
-            else:
-                to_high = True
-        elif n_low < n_high:
-            if value >= self.high[0]:
-                tmp = self.pop_high()
-                self.add_low(tmp)
-                to_high = True
-            else:
-                if value > self.low[0]:
-                    to_high = True
-
-        if to_high:
+        m = self.median()
+        if m is None:
+            self.add_high(value)
+        elif value > m:
             self.add_high(value)
         else:
             self.add_low(value)
+
+        # rebalance
+        if len(self.high) > len(self.low) + 1:
+            self.add_low(self.pop_high())
+        elif len(self.low) > len(self.high) + 1:
+            self.add_high(self.pop_low())
 
     def add_high(self, value):
         heapq.heappush(self.high, value)
